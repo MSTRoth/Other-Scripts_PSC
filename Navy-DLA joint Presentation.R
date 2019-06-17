@@ -5,10 +5,10 @@ library(ggrepel)
 options(scipen = 999)
 
 
-data <- read_csv("x:/1 Marielle Folder/Data Sets/By Agency/DOD/USA Spending Navy FY15-FY18.csv")
+data <- read_csv("x:/1 Marielle Folder/Data Sets/By Agency/DOD/USA Spending Navy FY15-FY18.csv")  ## data source
 
 setwd("x:/1 Marielle Folder/Visualizations/Agency Charts/DPAP Categories")
-dpap <- read_csv("~/Reference Tables/DPAP Crosswalk.csv")
+dpap <- read_csv("~/Reference Tables/DPAP Crosswalk.csv")                                      ##Crosswalk source
 
 agency_chart <- data %>% 
   rename("PSC" = "product_or_service_code",
@@ -22,7 +22,7 @@ agency_chart <- data %>%
   filter(fiscal_year != 2019) %>% ##include if there is an inclomplete year
   filter(PSC != "UNKN") %>% 
   group_by(DPAP_category, fiscal_year) %>%    ##### DPAP, fiscal_year or PSC Code, PSC Description, fiscal_year
-  summarise(sum = sum(transaction_value)/1000000)
+  summarise(sum = sum(transaction_value)/1000000)  ##$$
 
 agency_chart$fiscal_year <- as.character(agency_chart$fiscal_year)
 
@@ -36,8 +36,8 @@ plot <- ggplot(agency_chart, aes(fill = fiscal_year,
   #geom_text(aes(label = dollar(round(sum, digits = 1)), vjust = -1), size = 4)+
   scale_fill_manual(values = cc) +
   #scale_y_continuous(labels = dollar) +
-  labs(y = "Contract Obligations (in Millions)", title = "Department of the Navy",
-       subtitle = "FY15-FY18", x = NULL)+
+  labs(y = "Contract Obligations (in Millions)", title = "Department of the Navy",  ##$$ and Agency Title
+       subtitle = "FY15-FY18", x = NULL)+                   ##years
   facet_grid(~DPAP_category, labeller = label_wrap_gen(10), scales = "free")+
   theme(plot.title = element_text(hjust = 0.5, size = 36, face = "bold"),
         plot.subtitle = element_text(hjust = 0.5, size = 28, face = "bold"),        
@@ -72,7 +72,7 @@ plot <- ggplot(agency_chart, aes(fill = fiscal_year,
 plot
 
 
-ggsave("NAVY DPAP FY15-FY18 w products.jpg", plot,
+ggsave("NAVY DPAP FY15-FY18 w products.jpg", plot,               ##save file name
        width = 15, height = 7, units = "in") 
 
 
